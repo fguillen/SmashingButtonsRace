@@ -40,12 +40,16 @@ public class ManagerController : MonoBehaviour
         
   }
 
+  private void FixedUpdate()
+  {
+    ApplyForces();
+  }
+
   // Update is called once per frame
   void Update()
   {
 
     StartRace();
-    AddFloatingForce();
     CalculateBallFloatingDistance();
     CalculateBallRunningVelocity();
     CalculateFloatingBallSpringForce();
@@ -66,14 +70,6 @@ public class ManagerController : MonoBehaviour
     state = "end";
     Debug.Log("Race ends");
     UIController.instance.ShowResult(CalculateRaceTime());
-  }
-
-  void AddFloatingForce()
-  {
-    if (state == "playing" && Input.GetKeyDown(KeyCode.Space))
-    {
-      ballFloating.GetComponent<Rigidbody2D>().AddForce(new Vector3(0f, ballFloatingAppliedForce, 0f));
-    }
   }
 
   float CalculateRaceTime()
@@ -111,12 +107,21 @@ public class ManagerController : MonoBehaviour
     return Mathf.Round(number * 100) / 100f;
   }
 
+  void ApplyForces()
+  {
+    ballFloating.GetComponent<Rigidbody2D>().AddForce(new Vector3(0f, ballFloatingSpringForce * -1, 0f));
+
+    if (state == "playing" && Input.GetKeyDown(KeyCode.Space))
+    {
+      ballFloating.GetComponent<Rigidbody2D>().AddForce(new Vector3(0f, ballFloatingAppliedForce, 0f));
+    }
+  }
+
 
   // F=kx
   // - https://en.wikipedia.org/wiki/Hooke's_law
   void CalculateFloatingBallSpringForce()
   {
     ballFloatingSpringForce = ballFloatingSpringConstant * ballFloatingDistance;
-    ballFloating.GetComponent<Rigidbody2D>().AddForce(new Vector3(0f, ballFloatingSpringForce * -1, 0f));
   }
 }
