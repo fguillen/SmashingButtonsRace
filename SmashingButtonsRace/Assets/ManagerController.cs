@@ -8,14 +8,17 @@ public class ManagerController : MonoBehaviour
   public GameObject ballFloating;
   public Transform ballFloatingContactPoint;
   public Transform boxContactPoint;
-  public GameObject ballFloatingDirection;
-  public GameObject ballFloatingScale;
-  public Text ballFloatingScaleText;
+  public GameObject ballFloatingDirectionArrow;
+  public GameObject ballFloatingDistanceArrow;
+  public float ballFloatingDistance;
+  public Text ballFloatingDistanceText;
   public float ballFloatingAppliedForce = 1f;
 
   public GameObject ballRunning;
-  public GameObject ballRunningVelocity;
-  public Text ballRunninngVelocity;
+  public GameObject ballRunningVelocityArrow;
+  public Text ballRunningVelocityText;
+  public float ballRunningVelocity;
+  public float ballRunningActualVelocity;
 
   // Start is called before the first frame update
   void Start()
@@ -28,18 +31,24 @@ public class ManagerController : MonoBehaviour
   {
     if(Input.GetKeyDown(KeyCode.Space))
     {
-      ballFloating.GetComponent<Rigidbody>().AddForce(new Vector3(0f, ballFloatingAppliedForce, 0f));
+      ballFloating.GetComponent<Rigidbody2D>().AddForce(new Vector3(0f, ballFloatingAppliedForce, 0f));
     }
 
-    CalculateBallFloatingScale();
+    CalculateBallFloatingDistance();
+    CalculateBallRunningVelocity();
   }
 
-  void CalculateBallFloatingScale()
+  void CalculateBallFloatingDistance()
   {
-    var value = ballFloatingContactPoint.transform.position.y - boxContactPoint.transform.position.y;
+    ballFloatingDistance = ballFloatingContactPoint.transform.position.y - boxContactPoint.transform.position.y;
+    ballFloatingDistanceText.text = ballFloatingDistance.ToString();
+  }
 
-    ballFloatingScaleText.text = value.ToString();
+  void CalculateBallRunningVelocity()
+  {
+    ballRunningActualVelocity = ballFloatingDistance * ballRunningVelocity;
+    ballRunning.GetComponent<Rigidbody2D>().velocity = new Vector3(ballRunningActualVelocity, 0f, 0f);
 
-    Debug.Log("distance: " + value.ToString());
+    ballRunningVelocityText.text = ballRunningActualVelocity.ToString();
   }
 }

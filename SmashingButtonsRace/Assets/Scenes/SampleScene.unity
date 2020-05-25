@@ -252,13 +252,16 @@ MonoBehaviour:
   ballFloating: {fileID: 1887118599}
   ballFloatingContactPoint: {fileID: 436773967}
   boxContactPoint: {fileID: 1340808277}
-  ballFloatingDirection: {fileID: 1303473874}
-  ballFloatingScale: {fileID: 1068094110}
-  ballFloatingScaleText: {fileID: 1929396388}
-  ballFloatingAppliedForce: 1
+  ballFloatingDirectionArrow: {fileID: 1303473874}
+  ballFloatingDistanceArrow: {fileID: 1068094110}
+  ballFloatingDistance: 1
+  ballFloatingDistanceText: {fileID: 1929396388}
+  ballFloatingAppliedForce: 70
   ballRunning: {fileID: 1666959079}
-  ballRunningVelocity: {fileID: 1203808182}
-  ballRunninngVelocity: {fileID: 1127250945}
+  ballRunningVelocityArrow: {fileID: 1203808182}
+  ballRunningVelocityText: {fileID: 1127250945}
+  ballRunningVelocity: 1
+  ballRunningActualVelocity: 0
 --- !u!224 &90701429
 RectTransform:
   m_ObjectHideFlags: 0
@@ -578,7 +581,7 @@ GameObject:
   - component: {fileID: 1068094111}
   - component: {fileID: 1068094112}
   m_Layer: 0
-  m_Name: Scale
+  m_Name: Distance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
