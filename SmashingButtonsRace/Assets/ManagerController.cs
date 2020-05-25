@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class ManagerController : MonoBehaviour
 {
   public GameObject ballFloating;
+  public Transform ballFloatingContactPoint;
+  public Transform boxContactPoint;
   public GameObject ballFloatingDirection;
   public GameObject ballFloatingScale;
   public Text ballFloatingScaleText;
@@ -28,5 +30,16 @@ public class ManagerController : MonoBehaviour
     {
       ballFloating.GetComponent<Rigidbody>().AddForce(new Vector3(0f, ballFloatingAppliedForce, 0f));
     }
+
+    CalculateBallFloatingScale();
+  }
+
+  void CalculateBallFloatingScale()
+  {
+    var value = ballFloatingContactPoint.transform.position.y - boxContactPoint.transform.position.y;
+
+    ballFloatingScaleText.text = value.ToString();
+
+    Debug.Log("distance: " + value.ToString());
   }
 }
