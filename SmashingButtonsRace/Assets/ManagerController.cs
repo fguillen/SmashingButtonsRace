@@ -24,9 +24,14 @@ public class ManagerController : MonoBehaviour
   public float ballRunningVelocity;
   public float ballRunningActualVelocity;
 
+  private string state;
+  private float startTime;
+
+
   private void Awake()
   {
     instance = this;
+    state = "idle";
   }
 
   // Start is called before the first frame update
@@ -39,23 +44,40 @@ public class ManagerController : MonoBehaviour
   void Update()
   {
 
+    StartRace();
     AddFloatingForce();
     CalculateBallFloatingDistance();
     CalculateBallRunningVelocity();
     CalculateFloatingBallSpringForce();
   }
 
+  void StartRace()
+  {
+    if(state == "idle" && Input.GetKeyDown(KeyCode.Space))
+    {
+      state = "playing";
+      startTime = Time.time;
+    }
+  }
+
   public void EndRace()
   {
+    state = "end";
     Debug.Log("Race ends");
+    UIController.instance.ShowResult(CalculateRaceTime());
   }
 
   void AddFloatingForce()
   {
-    if (Input.GetKeyDown(KeyCode.Space))
+    if (state == "playing" && Input.GetKeyDown(KeyCode.Space))
     {
       ballFloating.GetComponent<Rigidbody2D>().AddForce(new Vector3(0f, ballFloatingAppliedForce, 0f));
     }
+  }
+
+  float CalculateRaceTime()
+  {
+    return Time.time - startTime;
   }
 
   void CalculateBallFloatingDistance()
@@ -71,6 +93,7 @@ public class ManagerController : MonoBehaviour
 
     ballRunningVelocityText.text = ballRunningActualVelocity.ToString();
   }
+
 
   // F=kx
   // - https://en.wikipedia.org/wiki/Hooke's_law
