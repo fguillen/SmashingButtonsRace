@@ -49,6 +49,7 @@ public class ManagerController : MonoBehaviour
     CalculateBallFloatingDistance();
     CalculateBallRunningVelocity();
     CalculateFloatingBallSpringForce();
+    DisplayNumbers();
   }
 
   void StartRace()
@@ -83,15 +84,31 @@ public class ManagerController : MonoBehaviour
   void CalculateBallFloatingDistance()
   {
     ballFloatingDistance = ballFloatingContactPoint.transform.position.y - boxContactPoint.transform.position.y;
-    ballFloatingDistanceText.text = ballFloatingDistance.ToString();
   }
 
   void CalculateBallRunningVelocity()
   {
-    ballRunningActualVelocity = ballFloatingDistance * ballRunningVelocity;
-    ballRunning.GetComponent<Rigidbody2D>().velocity = new Vector3(ballRunningActualVelocity, 0f, 0f);
+    if (state == "playing")
+    {
+      ballRunningActualVelocity = ballFloatingDistance * ballRunningVelocity;
+    } else
+    {
+      ballRunningActualVelocity = 0;
+    }
 
-    ballRunningVelocityText.text = ballRunningActualVelocity.ToString();
+    ballRunning.GetComponent<Rigidbody2D>().velocity = new Vector3(ballRunningActualVelocity, 0f, 0f);
+  }
+
+  void DisplayNumbers()
+  {
+    ballRunningVelocityText.text = RoundNumber(ballRunningActualVelocity).ToString();
+    ballFloatingDistanceText.text = RoundNumber(ballFloatingDistance).ToString();
+    ballFloatingSpringForceText.text = RoundNumber(ballFloatingSpringForce).ToString();
+  }
+
+  float RoundNumber(float number)
+  {
+    return Mathf.Round(number * 100) / 100f;
   }
 
 
@@ -101,7 +118,5 @@ public class ManagerController : MonoBehaviour
   {
     ballFloatingSpringForce = ballFloatingSpringConstant * ballFloatingDistance;
     ballFloating.GetComponent<Rigidbody2D>().AddForce(new Vector3(0f, ballFloatingSpringForce * -1, 0f));
-
-    ballFloatingSpringForceText.text = ballFloatingSpringForce.ToString();
   }
 }
