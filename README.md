@@ -2,6 +2,10 @@
 
 Small tests project to experiment with smashing buttons adding velocity to a character
 
+## Demo
+
+- https://fguillen.github.io/SmashingButtonsRace/Builds/SmashingButtonsRace/
+
 ## The concept
 
 I tried several ways of implementing a Player velocity based on the velocity the User is
