@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ManagerController : MonoBehaviour
 {
+  public static ManagerController instance;
+
   public GameObject ballFloating;
   public Transform ballFloatingContactPoint;
   public Transform boxContactPoint;
@@ -19,6 +21,11 @@ public class ManagerController : MonoBehaviour
   public Text ballRunningVelocityText;
   public float ballRunningVelocity;
   public float ballRunningActualVelocity;
+
+  private void Awake()
+  {
+    instance = this;
+  }
 
   // Start is called before the first frame update
   void Start()
@@ -36,6 +43,11 @@ public class ManagerController : MonoBehaviour
 
     CalculateBallFloatingDistance();
     CalculateBallRunningVelocity();
+  }
+
+  public void EndRace()
+  {
+    Debug.Log("Race ends");
   }
 
   void CalculateBallFloatingDistance()
